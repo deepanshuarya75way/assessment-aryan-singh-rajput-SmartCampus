@@ -13,8 +13,12 @@ export const aiService = {
     return res.data.data!;
   },
 
-  async chatWithAssistant(message: string, context?: string): Promise<ChatResult> {
-    const res = await api.post<ApiResponse<ChatResult>>('/ai/chat', { message, context });
+  async chatWithAssistant(
+    message: string, 
+    context?: string,
+    history?: {role:string; text: string}[]
+    ): Promise<ChatResult> {
+    const res = await api.post<ApiResponse<ChatResult>>('/ai/chat', { message, context, history});
     return res.data.data!;
   }
 };

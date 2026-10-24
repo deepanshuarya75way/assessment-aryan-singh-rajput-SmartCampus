@@ -18,7 +18,7 @@ class MatchResponse(BaseModel):
 class ChatRequest(BaseModel):
     message: str = Field(min_length=1, description="Student query or interview question")
     context: Optional[str] = Field(default="Placement and career interview assistance", description="Optional conversation context")
-
+    history: List[dict] = Field(default_factory=list)
 class ChatResponse(BaseModel):
     response: str = Field(description="AI response or placement advice")
     source: str = Field(description="Source of response: 'gemini' or 'fallback'")

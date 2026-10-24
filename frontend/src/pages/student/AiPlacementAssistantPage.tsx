@@ -46,7 +46,17 @@ export const AiPlacementAssistantPage: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const res = await aiService.chatWithAssistant(messageText);
+      const history = messages
+        .filter((msg) => msg.id !== studentMsg.id)
+        .map((msg) => ({
+          role: msg.sender === 'ai' ? 'model' : 'user',
+          text: msg.text, 
+        }));
+
+      const res = await aiService.chatWithAssistant(messageText,
+        undefined,
+        history
+      );  
       const aiMsg: Message = {
         id: (Date.now() + 1).toString(),
         sender: 'ai',

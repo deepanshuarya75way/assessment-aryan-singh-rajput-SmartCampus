@@ -13,7 +13,8 @@ async def chat_with_assistant(request: ChatRequest):
     try:
         response_text, source = GeminiAssistantService.generate_response(
             message=request.message,
-            context=request.context or ""
+            context=request.context or "",
+            history=request.history
         )
         return ChatResponse(response=response_text, source=source)
     except Exception as e:

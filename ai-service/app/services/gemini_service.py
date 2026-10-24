@@ -54,7 +54,8 @@ class GeminiAssistantService:
     def generate_response(
         cls,
         message: str,
-        context: str = ""
+        context: str = "",
+        history: list = None
     ) -> Tuple[str, str]:
         """
         Generates response using Gemini if configured,
@@ -70,6 +71,7 @@ class GeminiAssistantService:
         if cls._client:
             try:
                 prompt = (
+                    f"Conversation History:\n{history or []}\n\n"
                     f"Context:\n{context}\n\n"
                     f"Student Query:\n{message}\n\n"
                     "Answer the student's query directly. "
