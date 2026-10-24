@@ -98,11 +98,16 @@ class GeminiAssistantService:
                     "Falling back to placement engine."
                 )
 
-        return cls._get_placement_fallback(message), "fallback"
+        return cls._get_placement_fallback(message, history), "fallback"
 
     @classmethod
-    def _get_placement_fallback(cls, message: str) -> str:
+    def _get_placement_fallback(cls, message: str, history: list = None) -> str:
         lower = message.lower()
+        if history:
+            previous_text = " ".join(
+                item.get("text","") for item in history
+            )
+            lower = (previous_text + " " + message).lower()
 
         if any(w in lower for w in ["resume", "cv", "ats"]):
             return (
