@@ -1,3 +1,4 @@
+import re
 import os
 
 from typing import Tuple
@@ -108,6 +109,23 @@ class GeminiAssistantService:
                 item.get("text","") for item in history
             )
             lower = (previous_text + " " + message).lower()
+
+            if history and any(
+                phrase in message.lower()
+                for phrase in [
+                    "which programming language",
+                    "what programming language",
+                    "which language did i mention",
+                    "preferred language",
+                ]
+            ):
+                match= re.search(
+                  r"(?:preferred|programming)language(?:is|:)\s*([A-Za-z0-9+#.]*)",
+                  previous_text,
+                  re.IGNORECASE,
+                )
+                if match:
+                    return f"You mentioned{match.group(1)}."
 
         if any(w in lower for w in ["resume", "cv", "ats"]):
             return (
